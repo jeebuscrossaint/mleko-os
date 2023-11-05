@@ -1,6 +1,6 @@
 # choqolah-milk-OS
 
-*My first delve into operating system development, as I am interested in low level programming. Simply made for fun and from :heart: *
+*"My first delve into operating system development, as I am interested in low level programming. Simply made for fun and from :heart: "*
 
 -----
 
