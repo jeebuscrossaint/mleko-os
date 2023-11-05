@@ -1,16 +1,17 @@
+#include "types.h"
 
 void printf(char* str)
 {
-    unsigned short* VideoMemory = (unsigned short*)0xb8000;
+    static uint16_t* VideoMemory = (uint16_t*)0xb8000;
 
     for(int i = 0; str[i] != '\0'; ++i)
         VideoMemory[i] = (VideoMemory[i] & 0xFF00) | str[i];
 }
 
 
-extern "C" void kernelMain(void* multiboot_strucuture, unsigned int magicnumber) 
+extern "C" void kernelMain(void* multiboot_strucuture, uint32_t magicnumber) 
 {
-    printf("Hello World!");
+    printf("Welcome to Choqolah Milk OS!");
     
     while(1);
 
