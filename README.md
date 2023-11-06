@@ -14,6 +14,17 @@
 
 ### Installation 
 
+#### Virtualization
+
+Currently the make file only supports the VirtualBox virtualizer because I am right now too busy to learn `qemu`, but will eventually do so. If you just want to virtualize it then you figure it out yourself for qemu, but if you want to use virtualbox, simply:
+
+```
+cd choqolah-milk-OS/
+make run
+```
+
+Follow below if you want to actually install it on bare metal.
+
 #### Deps
 ```
 grub | git 
