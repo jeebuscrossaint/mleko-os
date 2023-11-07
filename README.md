@@ -10,9 +10,13 @@
 - [Usage](#usage)
 - [License](#license)
 
+
 -----
 
 ### Installation 
+
+#### Average person
+If you do not know anything about like CS and whatnot, but still want to try this OS, simply go to the [releases](https://github.com/jeebuscrossaint/choqolah-milk-OS/releases) and download the latest release (which will be the .iso file), or any release really for archival purposes. But I reccommend the most recent one so that way your system doesn't break. Next, burn the ISO to a USB stick. A common ISO burner is Balena Etcher, though for windows users I reccommend Rufus because it is just based. For those using Linux distribution's you can use the `xfburn` package from your distributor. For macOS users, figure your stuff out together or just use balena etcher as mentioned earlier. I've never used a mac so thats why I don't know.
 
 #### Virtualization
 
@@ -27,12 +31,15 @@ Follow below if you want to actually install it on bare metal.
 
 #### Deps
 ```
-grub | git 
+grub | git | xorriso
 ```
+**Building from source**
 
-First thing to know is if you have GRUB installed, if not please do so. 
+First thing to know is if you have [GRUB](https://www.gnu.org/software/grub/) installed, if not please do so. 
+You probably already have [git](https://git-scm.com/) installed especially if you are on a linux distro. If not do so.
+Then install [xorriso](https://www.gnu.org/software/xorriso/) from your package manager.
 
-Once you have installed GRUB (GRand Unified Bootloader), please clone this repository
+Once you have installed the required dependencies please clone this repository.
 ```
 git clone https://github.com/jeebuscrossaint/choqolah-milk-OS
 cd choqolah-milk-OS/
@@ -42,14 +49,14 @@ Next, run `make install`
 Once that is completed, add the following lines to your grub.cfg after where it says `### END /etc/grub.d/30_os-prober ###`
 
 ```
-### BEGIN MY KERNEL ###
+### BEGIN CHOCOLATE MILK KERNEL ###
 
 menuentry 'choqolah milk OS' {
     multiboot /boot/kernel.bin
     boot
 }
 
-### END MY KERNEL ###
+### END CHOCOLATE MILK KERNEL ###
 ```
 
 ### Usage
