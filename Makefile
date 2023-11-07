@@ -16,7 +16,7 @@ kernel.bin: linker.ld $(objects)
 	ld $(LDPARAMS) -T $< -o $@ $(objects)
 
 install: kernel.bin
-	sudo cp $< /boot/mykernel.bin
+	sudo cp $< /boot/kernel.bin
 
 kernel.iso: kernel.bin
 	mkdir iso
