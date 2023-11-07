@@ -45,7 +45,7 @@ Once that is completed, add the following lines to your grub.cfg after where it 
 ### BEGIN MY KERNEL ###
 
 menuentry 'choqolah milk OS' {
-    multiboot /boot/mykernel.bin
+    multiboot /boot/kernel.bin
     boot
 }
 
