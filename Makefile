@@ -37,4 +37,3 @@ run: kernel.iso
 	VirtualBoxVM --startvm "choccy milk" & 
 clean:
 	rm -f $(objects) kernel.bin kernel.iso
-	rm -rf iso/
