@@ -12,34 +12,35 @@ class Port {
 };
 
 class Port8Bit : public Port {
-    public::
+    public:
         Port8Bit(uint16_t portnumber);
         ~Port8Bit();
-        virtual Write(uint8_t data);
-        virtual Read();        
+        void Write(uint8_t data);
+        uint8_t Read();        
 };
 
 class Port8BitSlow : public Port8Bit {
-    public::
+    public:
         Port8BitSlow(uint16_t portnumber);
-        ~Port8BitSlow();     
+        ~Port8BitSlow();  
+        virtual void Write(uint8_t data);   
 };
 
 
 class Port16Bit : public Port {
-    public::
+    public:
         Port16Bit(uint16_t portnumber);
         ~Port16Bit();
-        virtual Write(uint16_t data);
-        virtual Read();        
+        void Write(uint16_t data);
+        uint16_t Read();        
 };
 
 class Port32Bit : public Port {
-    public::
+    public:
         Port32Bit(uint32_t portnumber);
         ~Port32Bit();
-        virtual Write(uint32_t data);
-        virtual Read();        
+        virtual void Write(uint32_t data);
+        uint32_t Read();        
 };
 
 

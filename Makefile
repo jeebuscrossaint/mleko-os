@@ -4,7 +4,7 @@ ASPARAMS = --32
 LDPARAMS = -melf_i386
 CFLAGS=-fno-stack-protector
 
-objects = loader.o gdt.o kernel.o
+objects = loader.o gdt.o port.o kernel.o
 
 %.o: %.cpp
 	g++ $(CFLAGS) $(GPPPARAMS) -o $@ -c $<
@@ -34,8 +34,10 @@ kernel.iso: kernel.bin
 
 run: kernel.iso
 	(killall VirtualBox && sleep 1) || true
-	VirtualBoxVM --startvm "choccy milk" & 
-clean:
-	rm -f $(objects) kernel.bin kernel.iso
+	VirtualBoxVM --startvm "choccy milk" & sleep 1
 kill:
 	pkill VirtualBoxVM
+
+.PHONY: clean
+clean:
+	rm -f $(objects) kernel.bin kernel.iso
