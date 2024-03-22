@@ -41,3 +41,4 @@ kill:
 .PHONY: clean
 clean:
 	rm -f $(objects) kernel.bin kernel.iso
+	rm -rf iso
