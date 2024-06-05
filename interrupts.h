@@ -1,6 +1,11 @@
 #ifndef __INTERRUPTS_H__
 #define __INTERRUPTS_H__
 
+
+#include "types.h"
+#include "port.h"
+
+
     class InterruptManager
     {
         public:
