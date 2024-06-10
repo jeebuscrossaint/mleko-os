@@ -51,7 +51,7 @@ void InterruptManager::activate() {
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp)
 {
 
-    printf("Interrupt: "); //minute 32:23 episode 6 (update later wow thats an old comment whilst watching breaking bad)
+    printf("Interrupt: "); //minute 55:06 episode 6 (update later wow thats an old comment whilst watching breaking bad)
 
     return esp;
 }
