@@ -51,7 +51,7 @@
             static uint32_t handleInterrupt(uint8_t interruptNumber, uint32_t esp);
 
             static void ignoreInterruptRequest();
-            static void handleInterruptRequest0x01();
+            static void handleInterruptRequest0x00();
             static void handleInterruptRequest0x01();
     }; 
 

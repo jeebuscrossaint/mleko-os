@@ -29,3 +29,4 @@ _stop:
 .space 2*1024*1024; # 2 megabyte of ram acquired
 
 kernel_stack: 
+
