@@ -50,6 +50,11 @@ extern "C" void kernelMain(void* multiboot_strucuture, uint32_t magicnumber)
     printf("Art will come soon! :D\n");
     
     GlobalDescriptorTable gdt;
+    InterruptManager interrupts(&gdt);
+
+
+    interrupts.activate();
+
 
     while(1);
 
