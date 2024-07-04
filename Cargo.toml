@@ -1,0 +1,8 @@
+[package]
+name = "choqolah-milk-os"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[no_std]
