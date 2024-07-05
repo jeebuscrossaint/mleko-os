@@ -5,4 +5,9 @@ edition = "2021"
 
 [dependencies]
 
-[no_std]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
