@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+bootloader = "0.9"
+
 
 # the profile used for `cargo build`
 [profile.dev]

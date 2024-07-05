@@ -1,1 +1,1 @@
-cargo rustc -- -C link-arg=-nostartfiles
+cargo build --release --target x86_64-runix.json
