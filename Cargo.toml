@@ -1,5 +1,5 @@
 [package]
-name = "choqolah-milk-os"
+name = "runix"
 version = "0.1.0"
 edition = "2021"
 
