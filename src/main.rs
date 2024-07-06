@@ -5,9 +5,12 @@
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-mod vga_buffer;
-mod serial;
+//mod vga_buffer; moved to lib.rs
+//mod serial; moved to lib.rs
 use core::panic::PanicInfo;
+use runix::println;
+use runix::test_runner;
+
 
 /// This function is called on panic.
 #[cfg(not(test))] // new attribute dropped ayyy
@@ -17,14 +20,12 @@ fn panic(info: &PanicInfo) -> ! {
     loop {}
 }
 
+
 // panic handler in test mode
 #[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-    serial_println!("[failed]\n");
-    serial_println!("Error: {}\n", info);
-    exit_qemu(QemuExitCode::Failed);
-    loop {}
+    runix::test_panic_handler(info)
 }
 
 
@@ -68,20 +69,21 @@ pub extern "C" fn _start() -> ! {
 // THERE IS A BUG IN CARGO WHERE THERE ARE "duplicate lang item" ERRORS 
 // ON CARGO TEST IN SOME CASES. TO FIX REMOVE/COMMENT OUT THE ' panic = "abort" ' 
 // FOR A PROFILE IN THE CARGO.TOML FILE
-#[cfg(test)]
+/* #[cfg(test)] old test runner moved to lib.rs
 pub fn test_runner(tests: &[&dyn Testable]) { // new
     serial_println!("Running {} tests", tests.len());
     for test in tests {
         test.run(); // new
     }
     exit_qemu(QemuExitCode::Success);
-}
+} */
 
 #[test_case]
 fn trivial_assertion() {
     assert_eq!(1, 1);
 }
 
+/* old qemu stuff moved to lib.rs
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u32)]
 pub enum QemuExitCode {
@@ -112,3 +114,4 @@ where
         serial_println!("[ok]");
     }
 }
+*/

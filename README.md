@@ -1,5 +1,56 @@
 # runix
 
-*"rust written microkernel soon hopefully"*
+***"rust written microkernel hopefully"***
 
-ok so far i think you need to switch to nightly rust and then run cargo install bootimage and rustup component add llvm-tools-preview and then you can run `cargo bootimage` and then you can run the cargo run command and it should work.
+----
+
+## Features
+- [x] Booting
+- [x] VGA Text Mode
+- [x] Serial Output
+- bout it so far
+
+
+## Roadmap
+- [ ] ISO Generation or IMG Generation
+- [ ] Memory Management
+- [ ] Multitasking
+- [ ] Filesystem
+- [ ] Userland
+- [ ] Networking
+
+
+## Building
+
+```bash
+rustup default nightly
+cargo install bootimage
+rustup component add llvm-tools-preview
+cargo run
+```
+
+## License
+
+```
+MIT License
+
+Copyright (c) 2023 Amarnath P.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
