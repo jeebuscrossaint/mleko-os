@@ -2,6 +2,8 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 
+
+
 pub enum Color {
     Black = 0,
     Blue = 1,
@@ -44,10 +46,13 @@ struct ScreenChar {
 const BUFFER_HEIGHT: usize = 25;
 const BUFFER_WIDTH: usize = 80;
 
+
+use volatile::Volatile;
+
 #[repr(transparent)]
 
 struct Buffer {
-    chars: [[ScreenChar; BUFFER_WIDTH]; BUFFER_HEIGHT],
+    chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT],
 }
 
 pub struct Writer {
@@ -69,10 +74,10 @@ impl Writer {
                 let col = self.column_position;
 
                 let color_code = self.color_code;
-                self.buffer.chars[row][col] = ScreenChar {
+                self.buffer.chars[row][col].write(ScreenChar {
                     ascii_character: byte,
                     color_code,
-                };
+                });
 
                 self.column_position += 1;
             }
@@ -93,14 +98,24 @@ impl Writer {
     }
 }
 
-pub fn print_something() { 
+pub fn print_something() {
+    use core::fmt::Write;
     let mut writer = Writer {
         column_position: 0,
-        color_code: ColorCode::new(Color::LightRed, Color::Black),
+        color_code: ColorCode::new(Color::Yellow, Color::Black),
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
     };
 
     writer.write_byte(b'H');
-    writer.write_string("i ");
-    writer.write_string("Mom!");
+    writer.write_string("ello! ");
+    write!(writer, "The numbers are {} and {}", 42, 1.0/3.0).unwrap();
+}
+
+use core::fmt;
+
+impl fmt::Write for Writer {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.write_string(s);
+        Ok(())
+    }
 }
