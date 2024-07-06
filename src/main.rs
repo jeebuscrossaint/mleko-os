@@ -69,21 +69,17 @@ pub extern "C" fn _start() -> ! {
 // ON CARGO TEST IN SOME CASES. TO FIX REMOVE/COMMENT OUT THE ' panic = "abort" ' 
 // FOR A PROFILE IN THE CARGO.TOML FILE
 #[cfg(test)]
-fn test_runner(tests: &[&dyn Fn()]) {
+pub fn test_runner(tests: &[&dyn Testable]) { // new
     serial_println!("Running {} tests", tests.len());
-    println!("Running {} tests", tests.len());
     for test in tests {
-        test();
+        test.run(); // new
     }
-    //new
     exit_qemu(QemuExitCode::Success);
 }
 
 #[test_case]
 fn trivial_assertion() {
-    serial_print!("trivial assertion... ");
-    assert_eq!(0, 1);
-    serial_println!("[ok]");
+    assert_eq!(1, 1);
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -99,5 +95,20 @@ pub fn exit_qemu(exit_code: QemuExitCode) {
     unsafe {
         let mut port = Port::new(0xf4);
         port.write(exit_code as u32);
+    }
+}
+
+pub trait Testable {
+    fn run(&self) -> ();
+}
+
+impl<T> Testable for T
+where
+    T: Fn(),
+{
+    fn run(&self) {
+        serial_print!("{}...\t", core::any::type_name::<T>());
+        self();
+        serial_println!("[ok]");
     }
 }
