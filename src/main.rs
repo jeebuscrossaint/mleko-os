@@ -7,7 +7,7 @@
 
 //mod vga_buffer; moved to lib.rs
 //mod serial; moved to lib.rs
-//use runix::test_runner;
+use runix::test_runner;
 use core::panic::PanicInfo;
 use runix::println;
 
@@ -58,9 +58,15 @@ pub extern "C" fn _start() -> ! {
     //example panic to test panic handler
     //panic!("Some panic message");
 
+    runix::init();
+
+    // invoke a breakpoint exception
+    x86_64::instructions::interrupts::int3();
+
     #[cfg(test)]
     test_main();
     
+    println!("we are alive");
     loop {}
 }
 
