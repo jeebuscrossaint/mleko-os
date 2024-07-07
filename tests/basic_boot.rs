@@ -5,6 +5,8 @@
 #![reexport_test_harness_main = "test_main"]
 
 use core::panic::PanicInfo;
+use runix::println;
+use runix::test_runner;
 
 #[no_mangle] // i wonder why compilers mangle names lol
 pub extern "C" fn _start() -> ! {
@@ -12,11 +14,15 @@ pub extern "C" fn _start() -> ! {
     loop {}
 }
 
-fn test_runner(tests: &[&dyn Fn()]) {
-    unimlpemented!();
-}
+
+//#[test_runner(runix::test_runner)]
 
 #[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
+fn panic(_info: &PanicInfo) -> ! {
     loop {}
+}
+
+#[test_case]
+fn test_println() {
+    println!("test_println output");
 }

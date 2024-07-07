@@ -7,9 +7,9 @@
 
 //mod vga_buffer; moved to lib.rs
 //mod serial; moved to lib.rs
+//use runix::test_runner;
 use core::panic::PanicInfo;
 use runix::println;
-use runix::test_runner;
 
 
 /// This function is called on panic.
@@ -78,10 +78,11 @@ pub fn test_runner(tests: &[&dyn Testable]) { // new
     exit_qemu(QemuExitCode::Success);
 } */
 
-#[test_case]
+/*#[test_case] // an old test case
 fn trivial_assertion() {
     assert_eq!(1, 1);
 }
+*/
 
 /* old qemu stuff moved to lib.rs
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
