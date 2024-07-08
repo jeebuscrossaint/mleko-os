@@ -5,8 +5,8 @@
 #![reexport_test_harness_main = "test_main"]
 
 use core::panic::PanicInfo;
-use runix::println;
-use runix::test_runner;
+use mlekoczekoladowe::println;
+use mlekoczekoladowe::test_runner;
 
 #[no_mangle] // i wonder why compilers mangle names lol
 pub extern "C" fn _start() -> ! {
@@ -15,7 +15,7 @@ pub extern "C" fn _start() -> ! {
 }
 
 
-//#[test_runner(runix::test_runner)]
+//#[test_runner(mlekoczekoladowe::test_runner)]
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {

@@ -1,4 +1,4 @@
-# runix
+# mleko-czekoladowe
 
 ***"rust written microkernel hopefully"***
 

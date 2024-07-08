@@ -7,9 +7,9 @@
 
 //mod vga_buffer; moved to lib.rs
 //mod serial; moved to lib.rs
-use runix::test_runner;
+use mlekoczekoladowe::test_runner;
 use core::panic::PanicInfo;
-use runix::println;
+use mlekoczekoladowe::println;
 
 
 /// This function is called on panic.
@@ -25,7 +25,7 @@ fn panic(info: &PanicInfo) -> ! {
 #[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-    runix::test_panic_handler(info)
+    mlekoczekoladowe::test_panic_handler(info)
 }
 
 
@@ -58,7 +58,7 @@ pub extern "C" fn _start() -> ! {
     //example panic to test panic handler
     //panic!("Some panic message");
 
-    runix::init();
+    mlekoczekoladowe::init();
 
     // invoke a breakpoint exception
     x86_64::instructions::interrupts::int3();
