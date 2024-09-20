@@ -1,4 +1,4 @@
-# mleko-czekoladowe
+# mleko-os
 
 ***"rust written microkernel hopefully"***
 
