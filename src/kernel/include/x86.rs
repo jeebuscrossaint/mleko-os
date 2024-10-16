@@ -1,5 +1,7 @@
 // src/x86.rs
 
+use std::arch::asm;
+
 #![feature(asm)]
 
 pub type Uchar = u8;
