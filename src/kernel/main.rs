@@ -1,0 +1,24 @@
+mod acpi;
+mod asm;
+mod buf;
+mod cpuid;
+mod date;
+mod defs;
+mod elf;
+mod fcntl
+mod file;
+mod fs;
+mod kbd;
+mod memlayout;
+mod mmu;
+mod mp;
+mod param;
+mod proc;
+mod spinlock;
+mod stat;
+mod syscall;
+mod traps;
+mod types;
+mod user;
+mod x86;
+
