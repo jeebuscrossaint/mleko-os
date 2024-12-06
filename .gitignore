@@ -20,3 +20,5 @@ xv6-x86_64/
 # already existing elements were commented out
 
 #/target
+
+build/
