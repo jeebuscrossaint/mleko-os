@@ -42,9 +42,9 @@ $(KERNEL_OBJ): $(KERNEL_SRC) $(KERNEL_HEADERS)
 # ISO Creation
 iso:
 	mkdir -p isodir/boot/grub
-	cp kernel.bin isodir/boot/
-	echo "menuentry 'My OS' {" > isodir/boot/grub/grub.cfg
-	echo "    multiboot2 /boot/kernel.bin" >> isodir/boot/grub/grub.cfg
+	cp Freax.bin isodir/boot/
+	echo "menuentry 'Freax' {" > isodir/boot/grub/grub.cfg
+	echo "    multiboot2 /boot/Freax.bin" >> isodir/boot/grub/grub.cfg
 	echo "}" >> isodir/boot/grub/grub.cfg
 	grub-mkrescue -o $(ISO) isodir
 
