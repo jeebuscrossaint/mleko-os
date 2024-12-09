@@ -22,3 +22,8 @@ xv6-x86_64/
 #/target
 
 build/
+*.iso
+*.o
+*.img
+*.bin
+isodir/
