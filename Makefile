@@ -24,13 +24,13 @@ KERNEL_BIN = $(BUILD_DIR)/Freax.bin
 ISO = $(BUILD_DIR)/Freax.iso
 
 # Automatically find all source files
-ASM_SRCS = $(shell find $(BOOT_DIR) -name '*.S')
+ASM_SRCS = $(shell find $(BOOT_DIR) $(KERNEL_DIR) -name '*.S')
 CPP_SRCS = $(shell find $(KERNEL_DIR) -name '*.cc')
 HEADERS = $(shell find $(INCLUDE_DIR) -name '*.hh')
 
-# Generate object file names in build directory
-ASM_OBJS = $(ASM_SRCS:$(SRC_DIR)/%.S=$(BUILD_DIR)/%.o)
-CPP_OBJS = $(CPP_SRCS:$(SRC_DIR)/%.cc=$(BUILD_DIR)/%.o)
+# Generate object file names in build directory with unique suffixes
+ASM_OBJS = $(ASM_SRCS:$(SRC_DIR)/%.S=$(BUILD_DIR)/%_asm.o)
+CPP_OBJS = $(CPP_SRCS:$(SRC_DIR)/%.cc=$(BUILD_DIR)/%_cpp.o)
 OBJS = $(ASM_OBJS) $(CPP_OBJS)
 
 # Create necessary build directories
@@ -48,12 +48,12 @@ $(KERNEL_BIN): $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^
 
 # Pattern rule for assembly files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.S
+$(BUILD_DIR)/%_asm.o: $(SRC_DIR)/%.S
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) $< -o $@
 
 # Pattern rule for C++ files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc $(HEADERS)
+$(BUILD_DIR)/%_cpp.o: $(SRC_DIR)/%.cc $(HEADERS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
