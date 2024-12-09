@@ -1,3 +1,11 @@
 CompileFlags:
-        CompilationDatabase: .
-        Add: [-I./src/include]
+  Add: [
+    -std=c++23,
+    -I./src/include,
+    -Wall,
+    -Wextra,
+    -ffreestanding,
+    -m64,
+    -fno-exceptions,
+    -fno-rtti
+  ]

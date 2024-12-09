@@ -8,7 +8,7 @@ CMAKE_COMMAND = cmake
 COMPILE_COMMANDS = compile_commands.json
 
 # Compiler Flags
-CFLAGS = -ffreestanding -O2 -Wall -Wextra -std=c++23 -m64 -fno-exceptions -fno-rtti -MJ $(BUILD_DIR)/$*.o.json
+CFLAGS = -ffreestanding -O2 -Wall -Wextra -std=c++23 -m64 -fno-exceptions -fno-rtti
 ASFLAGS = -f elf64
 LDFLAGS = -nostdlib -T linker.ld
 
