@@ -1,12 +1,11 @@
-#include <cstdint>
+#include "kernel.hh"
+#include "print.hh"
 
 extern "C" void kernel_main() {
-    volatile uint16_t* video_memory = (uint16_t*)0xB8000;
+    Print::clear();
+    Print::print("Hello, ", Print::Color::LightBlue, Print::Color::Black);
+    Print::print("World!\n", Print::Color::LightGreen, Print::Color::Black);
+    Print::print("Welcome to Freax OS!", Print::Color::Yellow, Print::Color::Blue);
 
-    const char* hello = "Hello, World!";
-    for(int i = 0; hello[i] != '\0'; i++) {
-        video_memory[i] = hello[i] | 0x0F00; // white on black pip
-    }
-
-    while(1) {} // Prevent CPU from executing random memory
+    while(1) {}
 }

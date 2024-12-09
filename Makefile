@@ -13,40 +13,49 @@ SRC_DIR = src
 BOOT_DIR = $(SRC_DIR)/boot
 KERNEL_DIR = $(SRC_DIR)/kernel
 INCLUDE_DIR = $(SRC_DIR)/include
+BUILD_DIR = build
 
 # Output
-KERNEL_BIN = Freax.bin
-ISO = Freax.iso
+KERNEL_BIN = $(BUILD_DIR)/Freax.bin
+ISO = $(BUILD_DIR)/Freax.iso
 
-# Source Files
-BOOT_SRC = $(BOOT_DIR)/boot.S
-KERNEL_SRC = $(KERNEL_DIR)/kernel.cc
-KERNEL_HEADERS = $(INCLUDE_DIR)/kernel.hh
+# Automatically find all source files
+ASM_SRCS = $(shell find $(BOOT_DIR) -name '*.S')
+CPP_SRCS = $(shell find $(KERNEL_DIR) -name '*.cc')
+HEADERS = $(shell find $(INCLUDE_DIR) -name '*.hh')
 
-# Object Files
-BOOT_OBJ = boot.o
-KERNEL_OBJ = kernel.o
+# Generate object file names in build directory
+ASM_OBJS = $(ASM_SRCS:$(SRC_DIR)/%.S=$(BUILD_DIR)/%.o)
+CPP_OBJS = $(CPP_SRCS:$(SRC_DIR)/%.cc=$(BUILD_DIR)/%.o)
+OBJS = $(ASM_OBJS) $(CPP_OBJS)
+
+# Create necessary build directories
+$(shell mkdir -p $(BUILD_DIR)/boot $(BUILD_DIR)/kernel)
 
 # Targets
 all: $(KERNEL_BIN)
 
-$(KERNEL_BIN): $(BOOT_OBJ) $(KERNEL_OBJ)
+$(KERNEL_BIN): $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^
 
-$(BOOT_OBJ): $(BOOT_SRC)
+# Pattern rule for assembly files
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.S
+	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) $< -o $@
 
-$(KERNEL_OBJ): $(KERNEL_SRC) $(KERNEL_HEADERS)
+# Pattern rule for C++ files
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc $(HEADERS)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 # ISO Creation
 iso: $(KERNEL_BIN)
-	mkdir -p isodir/boot/grub
-	cp $(KERNEL_BIN) isodir/boot/
-	echo "menuentry 'Freax' {" > isodir/boot/grub/grub.cfg
-	echo "    multiboot2 /boot/Freax.bin" >> isodir/boot/grub/grub.cfg
-	echo "}" >> isodir/boot/grub/grub.cfg
-	grub-mkrescue -o $(ISO) isodir
+	mkdir -p $(BUILD_DIR)/isodir/boot/grub
+	cp $(KERNEL_BIN) $(BUILD_DIR)/isodir/boot/
+	echo "menuentry 'Freax' {" > $(BUILD_DIR)/isodir/boot/grub/grub.cfg
+	echo "    multiboot2 /boot/Freax.bin" >> $(BUILD_DIR)/isodir/boot/grub/grub.cfg
+	echo "}" >> $(BUILD_DIR)/isodir/boot/grub/grub.cfg
+	grub-mkrescue -o $(ISO) $(BUILD_DIR)/isodir
 
 # QEMU Boot
 qemu: iso
@@ -54,7 +63,13 @@ qemu: iso
 
 # Cleanup
 clean:
-	rm -f *.o $(KERNEL_BIN)
-	rm -rf isodir $(ISO)
+	rm -rf $(BUILD_DIR)
 
-.PHONY: all clean iso qemu
+# Debug printing
+debug:
+	@echo "Assembly sources: $(ASM_SRCS)"
+	@echo "C++ sources: $(CPP_SRCS)"
+	@echo "Headers: $(HEADERS)"
+	@echo "Objects: $(OBJS)"
+
+.PHONY: all clean iso qemu debug
