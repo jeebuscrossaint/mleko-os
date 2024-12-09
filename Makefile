@@ -4,7 +4,7 @@ AS = nasm
 LD = ld
 
 # Compiler Flags
-CFLAGS = -ffreestanding -O2 -Wall -Wextra -std=c++17
+CFLAGS = -ffreestanding -O2 -Wall -Wextra -std=c++23 -m64 -fno-exceptions -fno-rtti
 ASFLAGS = -f elf64
 LDFLAGS = -nostdlib -T linker.ld
 
