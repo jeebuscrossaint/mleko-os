@@ -40,16 +40,16 @@ $(KERNEL_OBJ): $(KERNEL_SRC) $(KERNEL_HEADERS)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 # ISO Creation
-iso:
+iso: $(KERNEL_BIN)
 	mkdir -p isodir/boot/grub
-	cp Freax.bin isodir/boot/
+	cp $(KERNEL_BIN) isodir/boot/
 	echo "menuentry 'Freax' {" > isodir/boot/grub/grub.cfg
 	echo "    multiboot2 /boot/Freax.bin" >> isodir/boot/grub/grub.cfg
 	echo "}" >> isodir/boot/grub/grub.cfg
 	grub-mkrescue -o $(ISO) isodir
 
 # QEMU Boot
-qemu: $(ISO)
+qemu: iso
 	qemu-system-x86_64 -cdrom $(ISO)
 
 # Cleanup
