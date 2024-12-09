@@ -1,0 +1,4 @@
+-std=c++23
+-I./src/include
+-Wall
+-Wextra

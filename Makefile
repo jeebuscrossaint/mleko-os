@@ -3,8 +3,12 @@ CC = g++
 AS = nasm
 LD = ld
 
+# CMAKE and compile_commands.json
+CMAKE_COMMAND = cmake
+COMPILE_COMMANDS = compile_commands.json
+
 # Compiler Flags
-CFLAGS = -ffreestanding -O2 -Wall -Wextra -std=c++23 -m64 -fno-exceptions -fno-rtti
+CFLAGS = -ffreestanding -O2 -Wall -Wextra -std=c++23 -m64 -fno-exceptions -fno-rtti -MJ $(BUILD_DIR)/$*.o.json
 ASFLAGS = -f elf64
 LDFLAGS = -nostdlib -T linker.ld
 
@@ -32,8 +36,13 @@ OBJS = $(ASM_OBJS) $(CPP_OBJS)
 # Create necessary build directories
 $(shell mkdir -p $(BUILD_DIR)/boot $(BUILD_DIR)/kernel)
 
+$(COMPILE_COMMANDS): $(OBJS)
+	@echo "[" > $(COMPILE_COMMANDS)
+	@cat $(BUILD_DIR)/kernel/*.o.json $(BUILD_DIR)/boot/*.o.json | sed '$$!s/$$/,/' >> $(COMPILE_COMMANDS)
+	@echo "]" >> $(COMPILE_COMMANDS)
+
 # Targets
-all: $(KERNEL_BIN)
+all: $(KERNEL_BIN) $(COMPILE_COMMANDS)
 
 $(KERNEL_BIN): $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^
