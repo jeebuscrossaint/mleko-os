@@ -21,4 +21,22 @@ namespace ISR {
 
     // Register a custom handler for an interrupt
     void registerHandler(uint8_t n, HandlerFn handler);
+
+    constexpr uint8_t EXCEPTION_DE = 0;   // Divide Error
+    constexpr uint8_t EXCEPTION_DB = 1;   // Debug
+    constexpr uint8_t EXCEPTION_NMI = 2;  // Non-maskable Interrupt
+    constexpr uint8_t EXCEPTION_BP = 3;   // Breakpoint
+
+    // IRQ numbers (mapped to ISR 32-47)
+    constexpr uint8_t IRQ0 = 32;  // Timer
+    constexpr uint8_t IRQ1 = 33;  // Keyboard
+    constexpr uint8_t IRQ2 = 34;  // Cascade
+
+    void initialize();
+    extern "C" void handleException(InterruptFrame* frame);
+    using HandlerFn = void (*)(InterruptFrame*);
+    void registerHandler(uint8_t n, HandlerFn handler);
+
+    // New function to handle IRQs specifically
+    void installIRQHandler(uint8_t irq, HandlerFn handler);
 }

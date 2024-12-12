@@ -1,5 +1,6 @@
 #include "isr.hh"
 #include "idt.hh"
+#include "pic.hh"
 #include "print.hh"
 
 // Import the ISR stub table from assembly
@@ -24,14 +25,32 @@ void ISR::registerHandler(uint8_t n, HandlerFn handler) {
     handlers[n] = handler;
 }
 
+void ISR::installIRQHandler(uint8_t irq, HandlerFn handler) {
+    registerHandler(ISR::IRQ0 + irq, handler);
+    PIC::enableIRQ(irq);
+}
+
 // This gets called from our ASM interrupt handler stub
 extern "C" void handleException(InterruptFrame* frame) {
-    // If we have a custom handler, call it
+    // Handle IRQs (interrupt number >= 32 and < 48)
+    if (frame->interrupt_number >= ISR::IRQ0 && frame->interrupt_number < ISR::IRQ0 + 16) {
+        // Handle IRQ
+        if (handlers[frame->interrupt_number]) {
+            handlers[frame->interrupt_number](frame);
+        }
+
+        // Send EOI
+        PIC::sendEOI(frame->interrupt_number - ISR::IRQ0);
+        return;
+    }
+
+    // If we have a custom handler for other exceptions, use it
     if (handlers[frame->interrupt_number]) {
         handlers[frame->interrupt_number](frame);
         return;
     }
 
+    // Default exception handling
     Print::print("\n=== EXCEPTION ===\n");
     Print::print("Exception Number: ");
 

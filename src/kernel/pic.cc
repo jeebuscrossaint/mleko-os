@@ -20,7 +20,7 @@ static inline uint8_t inb(uint16_t port) {
 
 namespace PIC {
     void initialize() {
-        Print::print("Initializing PIC...\n");
+        //Print::print("Initializing PIC...\n");
 
         // ICW1: start initialization sequence
         outb(PIC1_COMMAND, 0x11);
@@ -38,7 +38,7 @@ namespace PIC {
         outb(PIC1_DATA, 0x01);
         outb(PIC2_DATA, 0x01);
 
-        Print::print("PIC initialized\n");
+        //Print::print("PIC initialized\n");
     }
 
     void disable() {
@@ -52,4 +52,27 @@ namespace PIC {
             outb(PIC2_COMMAND, 0x20);
         outb(PIC1_COMMAND, 0x20);
     }
+
+    void enableIRQ(uint8_t irq) {
+            uint16_t port = (irq < 8) ? PIC1_DATA : PIC2_DATA;
+            uint8_t value = inb(port);
+            if(irq >= 8) irq -= 8;
+            value &= ~(1 << irq);
+            outb(port, value);
+        }
+
+        void disableIRQ(uint8_t irq) {
+            uint16_t port = (irq < 8) ? PIC1_DATA : PIC2_DATA;
+            uint8_t value = inb(port);
+            if(irq >= 8) irq -= 8;
+            value |= (1 << irq);
+            outb(port, value);
+        }
+
+        bool isIRQEnabled(uint8_t irq) {
+            uint16_t port = (irq < 8) ? PIC1_DATA : PIC2_DATA;
+            uint8_t value = inb(port);
+            if(irq >= 8) irq -= 8;
+            return !(value & (1 << irq));
+        }
 }
