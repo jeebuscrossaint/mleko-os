@@ -4,7 +4,9 @@
 IDTEntry IDT::entries[256];
 IDTPtr IDT::ptr;
 
+// Declare the assembly function
 extern "C" void idt_flush(uint64_t);
+extern "C" void isr_default_handler();
 
 void IDT::initialize() {
     // Set up the IDT pointer
@@ -13,7 +15,7 @@ void IDT::initialize() {
 
     // Clear out the entire IDT entries first
     for(uint16_t i = 0; i < 256; i++) {
-        setGate(i, 0);
+        setGate(i, 0);  // Just zero out entries for now
     }
 
     // Load the IDT

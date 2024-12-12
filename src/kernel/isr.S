@@ -1,5 +1,11 @@
 global isr_stub_table
 
+global isr_default_handler
+isr_default_handler:
+    push qword 0     ; Push dummy error code
+    push qword 255   ; Push special number to indicate default handler
+    jmp isr_common_stub
+
 extern handleException
 
 ; Common ISR stub that calls C++ handler
@@ -98,7 +104,7 @@ ISR_ERRCODE   30 ; Security exception
 ISR_NOERRCODE 31 ; Reserved
 
 ; Create a table of ISR addresses
-section .data
+section .rodata  ; Change from .data to .rodata
 isr_stub_table:
 %assign i 0
 %rep 32

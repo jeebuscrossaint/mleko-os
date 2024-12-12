@@ -14,8 +14,7 @@ void ISR::initialize() {
     for (uint8_t i = 0; i < 32; i++) {
         IDT::setGate(i, isr_stub_table[i]);
         if (i == 0) {
-            Print::print("Divide by zero handler installed at: ");
-            // You might want to add a function to print hex numbers here
+            Print::print("Divide by zero handler installed\n");
         }
     }
     Print::print("ISRs initialized\n");
@@ -33,10 +32,9 @@ extern "C" void handleException(InterruptFrame* frame) {
         return;
     }
 
-    // Print debug info
-    Print::print("Exception occurred! Number: ");
+    Print::print("\n=== EXCEPTION ===\n");
+    Print::print("Exception Number: ");
 
-    // Convert interrupt number to string (basic implementation)
     char num_str[3] = {0};
     int num = frame->interrupt_number;
     if (num < 10) {
@@ -46,9 +44,19 @@ extern "C" void handleException(InterruptFrame* frame) {
         num_str[1] = '0' + (num % 10);
     }
     Print::print(num_str);
-    Print::print("\nSystem Halted!\n");
 
-    // Halt the system
+    Print::print("\nRIP: 0x");
+    char hex[16];  // Fixed size to 16
+    uint64_t rip = frame->rip;
+    for(int i = 15; i >= 0; i--) {
+        uint8_t nibble = rip & 0xF;
+        hex[i] = nibble + (nibble > 9 ? 'A' - 10 : '0');
+        rip >>= 4;
+    }
+    hex[15] = '\0';
+    Print::print(hex);
+
+    Print::print("\nSystem Halted!\n");
     while(true) {
         asm volatile("hlt");
     }

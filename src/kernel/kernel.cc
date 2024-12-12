@@ -3,28 +3,29 @@
 #include "gdt.hh"
 #include "idt.hh"
 #include "isr.hh"
+#include "pic.hh"
 
 extern "C" void kernel_main() {
-        GDT::initialize();
-        IDT::initialize();
-        ISR::initialize();
+    GDT::initialize();
+    IDT::initialize();
+    ISR::initialize();
 
-        // enable interrupts
-        asm volatile("sti");
+    // Remove the RFLAGS modification for now
 
-        Print::print("About to divide by zero");
+    Print::clear();
+    Print::print("Starting Freax OS...\n");
 
-        // test interrupt division by 0 error
-        asm volatile(
-                "mov $0, %%rcx\n"
-                "div %%rcx" : : "a"(1) : "rcx"
-            );
+    PIC::initialize();
+    PIC::disable();  // Make sure to disable for now
 
-        Print::print("This should not be printed!\n");
-        Print::clear();
-        Print::print("Hello, ", Print::Color::LightBlue, Print::Color::Black);
-        Print::print("World!\n", Print::Color::LightGreen, Print::Color::Black);
-        Print::print("Welcome to Freax OS!", Print::Color::Yellow, Print::Color::Blue);
+    Print::print("Hello, ", Print::Color::LightBlue, Print::Color::Black);
+    Print::print("World!\n", Print::Color::LightGreen, Print::Color::Black);
+    Print::print("Welcome to Freax OS!", Print::Color::Yellow, Print::Color::Blue);
 
-        while(1) {}
+    // Enable interrupts
+     asm volatile("sti");
+
+    while(1) {
+        asm volatile("hlt");
+    }
 }
