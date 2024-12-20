@@ -1,11 +1,10 @@
 CompileFlags:
   Add: [
-    -std=c++23,
+    -std=c17,
     -I./src/include,
     -Wall,
     -Wextra,
     -ffreestanding,
     -m64,
-    -fno-exceptions,
-    -fno-rtti
+    -fno-stack-protector
   ]

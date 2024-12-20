@@ -1,5 +1,5 @@
 # Compiler and Linker
-CC = g++
+CC = gcc
 AS = nasm
 LD = ld
 
@@ -8,7 +8,7 @@ CMAKE_COMMAND = cmake
 COMPILE_COMMANDS = compile_commands.json
 
 # Compiler Flags
-CFLAGS = -ffreestanding -O2 -Wall -Wextra -std=c++23 -m64 -fno-exceptions -fno-rtti -fno-stack-protector
+CFLAGS = -ffreestanding -O2 -Wall -Wextra -std=c17 -m64 -fno-stack-protector
 ASFLAGS = -f elf64
 LDFLAGS = -nostdlib -T linker.ld
 
@@ -25,13 +25,13 @@ ISO = $(BUILD_DIR)/Freax.iso
 
 # Automatically find all source files
 ASM_SRCS = $(shell find $(BOOT_DIR) $(KERNEL_DIR) -name '*.S')
-CPP_SRCS = $(shell find $(KERNEL_DIR) -name '*.cc')
-HEADERS = $(shell find $(INCLUDE_DIR) -name '*.hh')
+C_SRCS = $(shell find $(KERNEL_DIR) -name '*.c')
+HEADERS = $(shell find $(INCLUDE_DIR) -name '*.h')
 
 # Generate object file names in build directory with unique suffixes
 ASM_OBJS = $(ASM_SRCS:$(SRC_DIR)/%.S=$(BUILD_DIR)/%_asm.o)
-CPP_OBJS = $(CPP_SRCS:$(SRC_DIR)/%.cc=$(BUILD_DIR)/%_cpp.o)
-OBJS = $(ASM_OBJS) $(CPP_OBJS)
+C_OBJS = $(C_SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%_c.o)
+OBJS = $(ASM_OBJS) $(C_OBJS)
 
 # Create necessary build directories
 $(shell mkdir -p $(BUILD_DIR)/boot $(BUILD_DIR)/kernel)
@@ -52,8 +52,8 @@ $(BUILD_DIR)/%_asm.o: $(SRC_DIR)/%.S
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) $< -o $@
 
-# Pattern rule for C++ files
-$(BUILD_DIR)/%_cpp.o: $(SRC_DIR)/%.cc $(HEADERS)
+# Pattern rule for C files
+$(BUILD_DIR)/%_c.o: $(SRC_DIR)/%.c $(HEADERS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
@@ -77,7 +77,7 @@ clean:
 # Debug printing
 debug:
 	@echo "Assembly sources: $(ASM_SRCS)"
-	@echo "C++ sources: $(CPP_SRCS)"
+	@echo "C sources: $(C_SRCS)"
 	@echo "Headers: $(HEADERS)"
 	@echo "Objects: $(OBJS)"
 
