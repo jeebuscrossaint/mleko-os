@@ -1,0 +1,11 @@
+---
+IndentWidth: 8
+TabWidth: 8
+UseTab: Always
+BreakBeforeBraces: Linux
+AllowShortFunctionsOnASingleLine: false
+ColumnLimit: 100
+AlignConsecutiveMacros: false
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+---

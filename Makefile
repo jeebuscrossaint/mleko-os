@@ -1,5 +1,5 @@
 # Compiler and Linker
-CC = gcc
+CC = clang
 AS = nasm
 LD = ld
 
@@ -8,8 +8,16 @@ CMAKE_COMMAND = cmake
 COMPILE_COMMANDS = compile_commands.json
 
 # Compiler Flags
-CFLAGS = -ffreestanding -O2 -Wall -Wextra -std=c17 -m64 -fno-stack-protector
-ASFLAGS = -f elf64
+CFLAGS = -ffreestanding \
+         -O2 \
+         -Wall \
+         -Wextra \
+         -Werror \
+         -Wformat=2 \
+         -fstack-protector-strong \
+         -std=c17 \
+         -m64 \
+         -mno-red-zoneASFLAGS = -f elf64
 LDFLAGS = -nostdlib -T linker.ld
 
 # Directories

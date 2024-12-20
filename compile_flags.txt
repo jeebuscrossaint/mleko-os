@@ -2,6 +2,9 @@
 -I./src/include
 -Wall
 -Wextra
+-Werror
+-Wformat=2
+-fstack-protector-strong
 -ffreestanding
 -m64
--fno-stack-protector
+-mno-red-zone

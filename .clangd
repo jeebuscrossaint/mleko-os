@@ -4,7 +4,36 @@ CompileFlags:
     -I./src/include,
     -Wall,
     -Wextra,
+    -Wpedantic,
+    -Wformat=2,
     -ffreestanding,
     -m64,
     -fno-stack-protector
   ]
+  Remove: [-W*, -std*]  # Remove conflicting flags
+
+Diagnostics:
+  UnusedIncludes: Strict
+  ClangTidy:
+    Add: [
+      modernize-*,
+      performance-*,
+      portability-*,
+      readability-*
+    ]
+    Remove: [
+      modernize-use-trailing-return-type,
+      readability-magic-numbers
+    ]
+
+Index:
+  Background: Build
+  StandardLibrary: No
+
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
+
+Completion:
+  AllScopes: Yes
