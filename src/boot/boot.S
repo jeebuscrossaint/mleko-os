@@ -1,5 +1,5 @@
 global _start
-extern kernel_main
+extern kmain
 
 section .multiboot
     align 8
@@ -79,8 +79,8 @@ long_mode_start:
     ; Set up stack
     mov rsp, stack_top
 
-    ; Call kernel
-    call kernel_main
+    ; Call C kernel main
+    call kmain
 
     ; Halt if kernel returns
     cli
