@@ -15,9 +15,10 @@ CFLAGS = -ffreestanding \
          -Werror \
          -Wformat=2 \
          -fstack-protector-strong \
-         -std=c17 \
+         -std=c23 \
          -m64 \
-         -mno-red-zoneASFLAGS = -f elf64
+         -mno-red-zone
+ASFLAGS = -f elf64
 LDFLAGS = -nostdlib -T linker.ld
 
 # Directories
